@@ -1,5 +1,8 @@
+from idlelib.autocomplete import TRY_A
+
 from django.db import models
 from django.utils.translation import  gettext_lazy as _
+
 
 class Category(models.Model):
     parent = models.ForeignKey('self', verbose_name=_('parent'), blank=True, null=True, on_delete=models.CASCADE)
@@ -15,22 +18,54 @@ class Category(models.Model):
         verbose_name = _("Category")
         verbose_name_plural = _("Categories")
 
+    def __str__(self):
+        return self.title
+
+
+
 
 
 class Product(models.Model):
     title = models.CharField(_("title"), max_length=50)
     categories = models.ManyToManyField('Category', verbose_name=_("categories"), blank=True)
+    description = models.TextField(_("description"), blank=True)
     avatar = models.ImageField(_("avatar"), blank=True, upload_to="products/")
+    is_enable = models.BooleanField(_("is enable"), default=True)
+    created_time = models.DateTimeField(_("created time"), auto_now_add=True)
+
 
     class Meta:
         db_table = "products"
         verbose_name = _("product")
         verbose_name_plural = _("products")
 
+    def __str__(self):
+        return self.title
+
+
 
 class File(models.Model):
-    parent = models.ForeignKey("Product", verbose_name=_("product"), on_delete=models.CASCADE)
+    AUDIO_FILE = 1
+    PDF_FILE = 2
+    VIDEO_PDF = 3
+    FILE_TYPE = (
+        (AUDIO_FILE, _("audio")),
+        (PDF_FILE, _("pdf")),
+        (VIDEO_PDF, _("video")),
+    )
+
+    parent = models.ForeignKey("Product", related_name="files", verbose_name=_("product"), on_delete=models.CASCADE)
     file = models.FileField(_('file'), upload_to="files/%Y/%m/%d/")
+    title = models.CharField(_("title"), max_length=50)
+    file_type = models.PositiveIntegerField(_("file type"), choices=FILE_TYPE)
+    is_enable = models.BooleanField(_("is enable"), default=True)
+    created_time = models.DateTimeField(_("created time"), auto_now_add=True)
+    updated_time = models.DateTimeField(_("updated time"), auto_now=True)
 
     class Meta:
-        ...
+        db_table = "files"
+        verbose_name = "file"
+        verbose_name_plural = "files"
+
+    def __str__(self):
+        return self.title
