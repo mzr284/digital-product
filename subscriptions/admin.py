@@ -1,3 +1,12 @@
 from django.contrib import admin
+from .models import Subscription, Package
 
-# Register your models here.
+
+@admin.register(Package)
+class PackageAdmin(admin.ModelAdmin):
+    list_display = ["title", "sku", "price", "duration"]
+
+
+@admin.register(Subscription)
+class SubscriptionAdmin(admin.ModelAdmin):
+    list_display = ["user", "package", "created_time", "expire_time"]

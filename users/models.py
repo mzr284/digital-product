@@ -73,7 +73,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                                    help_text=_("Designed for recognize the user can be staff and can log as a admin into the site or not"),
                                    )
     is_active = models.BooleanField(_("active"), default=True, help_text=_("Designed for find oud the user is active or not"))
-    data_joined = models.DateTimeField(_("data of join"), default=timezone.now())
+    data_joined = models.DateTimeField(_("data of join"), blank=True, null=True)
     last_seen = models.DateTimeField(_("last seen date"), null=True)
 
     objects = UserManager()
