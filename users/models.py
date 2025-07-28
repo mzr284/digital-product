@@ -60,7 +60,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                                 )
     first_name = models.CharField(_("first name"), max_length=30, blank=True)
     last_name = models.CharField(_("last name"), max_length=30, blank=True)
-    email = models.CharField(_("Email"),max_length=50 , unique=True, blank=True, null=True)
+    email = models.CharField(_("Email"), max_length=50, unique=True, blank=True, null=True)
     phone_number = models.BigIntegerField(_("Phone_number"), unique=True, blank=True, null=True,
                                           validators=[
                                               RegexValidator(r'^989[0-3,9]\d{8}$',
