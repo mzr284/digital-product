@@ -1,6 +1,7 @@
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 
 
@@ -10,6 +11,7 @@ from .serializers import CategorySerializer, ProductSerializer, FileSerializer
 # Categories:
 class CategoryListView(APIView):
 
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         categories = Category.objects.all()
         serializer = CategorySerializer(categories, many=True, context={"request": request})

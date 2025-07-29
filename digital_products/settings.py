@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 from django.conf.global_settings import MEDIA_ROOT, MEDIA_URL, AUTH_USER_MODEL
 from .local_settings import *
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     'products',
     'subscriptions',
     'payments',
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -142,4 +144,17 @@ CACHES = {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
         "LOCATION": "unique-snowflake",
     }
+}
+
+# Authentication
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1.5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    # ...
 }
