@@ -31,8 +31,8 @@ class Payment(models.Model):      # a bridge between client and bank for high se
         (STATUS_REFUNDED, _("Refunded")),
     )
     user = models.ForeignKey("users.User", verbose_name=_("user"), related_name='%(class)s', on_delete=models.CASCADE)
-    subscription = models.ForeignKey("subscriptions.Subscription", verbose_name=_("subscription"),
-                                     related_name='%(class)s', on_delete=models.CASCADE)
+    package = models.ForeignKey("subscriptions.Package", verbose_name=_("package"),
+                                related_name='%(class)s', on_delete=models.CASCADE)
     gateway = models.ForeignKey(Gateway, verbose_name=_("gateway"), related_name='%(class)s', on_delete=models.CASCADE)
     price = models.PositiveIntegerField(_("price"), default=0)
     status = models.PositiveSmallIntegerField(_("status"), choices=STATUS_CHOICE, default=STATUS_VOID)
@@ -44,4 +44,4 @@ class Payment(models.Model):      # a bridge between client and bank for high se
         verbose_name_plural = _("payments")
 
     def __str__(self):
-        return f'{self.subscription} created by {self.user} with {self.gateway}'
+        return f'{self.package} for {self.user} with {self.gateway}'

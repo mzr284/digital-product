@@ -7,6 +7,6 @@ class GatewayAdmin(admin.ModelAdmin):
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ['user', 'subscription', 'gateway', 'price', 'status']
+    list_display = ['user', 'package', 'gateway', 'price', 'status']
     list_filter = ['status', 'gateway']
     search_fields = ['user__username']
