@@ -36,6 +36,7 @@ class Payment(models.Model):      # a bridge between client and bank for high se
     gateway = models.ForeignKey(Gateway, verbose_name=_("gateway"), related_name='%(class)s', on_delete=models.CASCADE)
     price = models.PositiveIntegerField(_("price"), default=0)
     status = models.PositiveSmallIntegerField(_("status"), choices=STATUS_CHOICE, default=STATUS_VOID)
+    token = models.CharField(_("token"), max_length=25, null=True, blank=True)
     phone_number = models.BigIntegerField(_("phone_number"), blank=True, null=True, validators=[PhoneNumberValidator])
 
     class Meta:

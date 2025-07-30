@@ -8,6 +8,7 @@ class Package(models.Model):
     created_time = models.DateTimeField(_("created time"), auto_now_add=True)
     price = models.PositiveIntegerField(_("price"))
     duration = models.DurationField(_("duration"), blank=True, null=True)
+    is_enable = models.BooleanField(_("is enable"), default=True)
 
     class Meta:
         db_table = "packages"
