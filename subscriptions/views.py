@@ -18,6 +18,9 @@ class SubscriptionView(APIView):
 
     permission_classes = [IsAuthenticated]
     def get(self, request):
+
         subscription = Subscription.objects.filter(user=request.user, expire_time__gt=timezone.now())
+        if len(subscription) == 0:
+            return Response({'message': 'You not have package right now'})
         serialize = SubscriptionSerializer(subscription, many=True)
         return Response(serialize.data)

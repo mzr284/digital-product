@@ -1,7 +1,9 @@
+from django.utils import timezone
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from subscriptions.models import Subscription
 
 
 
@@ -62,7 +64,13 @@ class FileListView(APIView):
 
 class FileDetailView(APIView):
 
+    permission_classes = [IsAuthenticated]
     def get(self, request, product_pk, file_pk):
+
+        if not Subscription.objects.filter(user=request.user, expire_time__gt=timezone.now()).exists():
+            return Response({'message': "You don't have a subscription right now"},
+                            status=status.HTTP_401_UNAUTHORIZED)
+
         try:
             file = File.objects.get(pk=file_pk, parent=product_pk)
         except File.DoesNotExist:
